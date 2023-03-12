@@ -5,12 +5,15 @@ import ArticleDetailPage from "./features/articles/ArticleDetailPage";
 import LoginPage from "./features/login/LoginPage";
 import AdminArticleList from "./features/articles/AdminArticleList";
 import AdminEditArticle from "./features/articles/AdminEditArticle";
+import About from "./features/about/About";
+import "./index.scss"
 
 const App: React.FC = () => {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path={"/"} element={<RecentArticlesPage/>}/>
+                <Route path={"/about"} element={<About/>}/>
                 <Route path={"/post/:id"} element={<ArticleDetailPage/>}/>
                 <Route path={"/login"} element={<LoginPage/>}/>
                 <Route path={"/admin"} element={

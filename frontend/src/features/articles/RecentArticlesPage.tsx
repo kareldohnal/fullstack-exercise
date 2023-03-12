@@ -1,14 +1,17 @@
 import React from 'react';
+import Layout from "../wrappers/Layout";
 
 type Props = {
-  
+
 };
 
 const RecentArticlesPage = ({}: Props) => {
  return (
-  <div>
-   
-  </div>
+  <Layout>
+   <>
+   Recent Articles
+   </>
+  </Layout>
  );
 };
 
