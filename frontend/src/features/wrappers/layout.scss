@@ -1,3 +1,10 @@
-.layoutContainer {
+.layoutOuterContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.layoutInnerContainer {
   padding: 10px;
+  flex: 1;
+  max-width: 1152px;
 }

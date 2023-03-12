@@ -8,12 +8,14 @@ type Props = {};
 
 const Header = ({}: Props) => {
     return (
-        <div className={"headerContainer"}>
-            <div className={"headerLeft"}>
-                <Logo/>
-                <MainMenu/>
+        <div className={"headerOuterContainer"}>
+            <div className={"headerInnerContainer"}>
+                <div className={"headerLeft"}>
+                    <Logo/>
+                    <MainMenu/>
+                </div>
+                <AdminMenu/>
             </div>
-            <AdminMenu/>
         </div>
     );
 };

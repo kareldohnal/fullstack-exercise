@@ -1,0 +1,74 @@
+@use '../../partials/colors';
+
+.editArticleHeading {
+  align-items: center;
+  display: flex;
+  gap: 32px;
+  h1 {
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 48px;
+  }
+  button {
+    background: colors.$primary-color;
+    border: 0;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 400;
+    height: 36px;
+    padding: 6px 12px;
+    width: 127px;
+  }
+}
+
+.editArticleBlock{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+  h6 {
+    margin-bottom: 8px;
+  }
+  input[type="text"] {
+    box-sizing: border-box;
+    border: 1px solid #DFDFDF;
+    border-radius: 4px;
+    font-size: 20px;
+    height: 46px;
+    padding: 8px 16px;
+  }
+  .imagePreview {
+    align-self: start;
+    height: 74px;
+    margin-bottom: 8px;
+  }
+  .uploadControls {
+    display: flex;
+    gap: 8px;
+    .pipe {
+      color: #C8C8C8;
+    }
+    .delete {
+      color: #DC3545;
+      cursor: pointer;
+    }
+  }
+  label.empty {
+    align-items: center;
+    background: #6C757D;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    color: #ffffff;
+    justify-content: center;
+    width: 147px;
+    height: 36px;
+  }
+  label.full {
+    color: colors.$primary-color;
+    cursor: pointer;
+  }
+  input[type="file"] {
+    display: none;
+  }
+}

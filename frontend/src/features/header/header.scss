@@ -1,16 +1,23 @@
 @use '../../partials/colors';
 
+.headerOuterContainer {
+  display: flex;
+  justify-content: space-around;
+  background: colors.$background-light-color;
+  height: 56px;
+}
+
 .logo {
   align-self: start;
   margin-top: 3px;
 }
 
-.headerContainer {
-  background: colors.$background-light-color;
+.headerInnerContainer {
   display: flex;
-  height: 56px;
+  flex: 1;
   justify-content: space-between;
   padding: 0 10px;
+  max-width: 1152px;
 }
 
 .headerLeft {
