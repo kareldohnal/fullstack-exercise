@@ -2,6 +2,9 @@ import React, {ChangeEvent, useRef, useState} from 'react';
 import Layout from "../wrappers/Layout";
 import MDEditor from '@uiw/react-md-editor';
 import "./articles.scss";
+import {useAppDispatch} from "../../hooks/useAppDispatch";
+import {createPost} from "./articlesSlice";
+import {useNavigate} from "react-router-dom";
 
 type Props = {
     createNewMode?: boolean
@@ -9,9 +12,11 @@ type Props = {
 
 const AdminEditArticle = ({createNewMode = false}: Props) => {
     const [content, setContent] = useState<string>(undefined)
-    const [title, setTitle] = useState<string>(undefined)
+    const [title, setTitle] = useState<string>("")
     const [image, setImage] = useState<string | ArrayBuffer>(undefined)
     const fileRef = useRef(null)
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value)
@@ -29,10 +34,12 @@ const AdminEditArticle = ({createNewMode = false}: Props) => {
     }
 
     const handlePublish = () => {
-        if (!title || !content) {
+        if (title === "" || !content) {
             alert("Article Title and Content must be filled out.")
             return
         }
+        dispatch(createPost({title, content, thumbnail: image as string}))
+        navigate("/admin")
     }
 
     const handleDeleteImage = () => {

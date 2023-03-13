@@ -36,7 +36,22 @@ export const loginWithCredentials = createAsyncThunk(
     },
 );
 
-export const logout= createAsyncThunk(
+export const loginWithRefresh = createAsyncThunk(
+    'user/loginWithRefresh',
+    async (_, thunkAPI) => {
+        const responseData = await axios.post(`/auth/refresh`)
+            .then((response) =>  {
+                return response.data
+            })
+            .catch((error) => {
+                console.log("Response error:", error)
+                return null
+            })
+        return responseData ? responseData : thunkAPI.rejectWithValue("loginWithRefresh")
+    },
+);
+
+export const logout = createAsyncThunk(
     'user/logout',
     async (_, thunkAPI) => {
         const logoutSuccess = await axios.post(`/auth/logout`)
@@ -71,6 +86,20 @@ export const userReducer = createSlice({
                 state.avatar = action.payload.avatar ? action.payload.avatar : undefined;
             })
             .addCase(loginWithCredentials.rejected, (state) => {
+                state.status = "failed";
+            })
+            .addCase(loginWithRefresh.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(loginWithRefresh.fulfilled, (state, action:PayloadAction<AuthEntity>) => {
+                state.status = "idle";
+                state.id = action.payload.id;
+                state.username = action.payload.username;
+                state.displayName = action.payload.displayName;
+                state.access_token = action.payload.access_token;
+                state.avatar = action.payload.avatar ? action.payload.avatar : undefined;
+            })
+            .addCase(loginWithRefresh.rejected, (state) => {
                 state.status = "failed";
             })
             .addCase(logout.pending, (state) => {
