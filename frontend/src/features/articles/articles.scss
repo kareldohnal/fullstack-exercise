@@ -72,3 +72,32 @@
     display: none;
   }
 }
+
+//AdminArticleList START
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  th {
+    border-bottom: 2px solid #DFDFDF;
+    text-align: left;
+  }
+  tr {
+    height: 48px;
+  }
+  td {
+    border-bottom: 1px solid #DFDFDF;
+    color: colors.$text-body-color;
+    padding: 3px;
+  }
+  .actionColumn {
+    align-items: center;
+    display: flex;
+    gap: 24px;
+    height: 48px;
+  }
+  .actionIcon {
+    cursor: pointer;
+    height: 24px;
+  }
+}
+//AdminArticleList END

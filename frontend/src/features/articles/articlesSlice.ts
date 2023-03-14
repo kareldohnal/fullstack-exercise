@@ -1,10 +1,11 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import axios from './../../config/axios';
 import {PostEntity} from "../../types/articlesTypes";
-import {useToken} from "../../hooks/useToken";
+import {RootState} from "../../config/store";
+import {silentRefresh} from "../login/userSlice";
 
 export interface ArticlesState {
-    status: 'idle' | 'loading' | 'failed',
+    status: 'idle' | 'loading' | 'failed'
     allArticles: Array<PostEntity> | undefined
     selectedArticle: PostEntity | undefined
 }
@@ -17,8 +18,9 @@ const initialState: ArticlesState = {
 
 export const createPost = createAsyncThunk(
     'articles/createPost',
-    async (data: {"title": string, "content": string, thumbnail?: string}, thunkAPI) => {
-        const token = await useToken()
+    async (data: {"authorId": number, postInput: {"title": string, "content": string, thumbnail?: string}}, thunkAPI) => {
+        await thunkAPI.dispatch(silentRefresh())
+        const token = (thunkAPI.getState() as RootState).user.access_token
         if (!token) return thunkAPI.rejectWithValue("loginWithCredentials: token unavailable")
         const responseData = await axios.post(`/posts`, data, {
             headers: {
@@ -35,7 +37,22 @@ export const createPost = createAsyncThunk(
     },
 );
 
-export const ArticlesReducer = createSlice({
+export const getAllPosts = createAsyncThunk(
+    'articles/getAllPosts',
+    async (_, thunkAPI) => {
+        const responseData = await axios.get(`/posts/getAllPosts`)
+            .then((response) =>  {
+                return response.data
+            })
+            .catch((error) => {
+                console.log("Response error:", error)
+                return null
+            })
+        return responseData ? responseData : thunkAPI.rejectWithValue("loginWithCredentials")
+    },
+);
+
+export const articlesReducer = createSlice({
     name: 'articles',
     initialState,
     reducers: {
@@ -52,12 +69,22 @@ export const ArticlesReducer = createSlice({
             .addCase(createPost.rejected, (state) => {
                 state.status = "failed";
             })
+            .addCase(getAllPosts.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getAllPosts.fulfilled, (state, action: PayloadAction<Array<PostEntity>>) => {
+                state.status = "idle";
+                state.allArticles = action.payload
+            })
+            .addCase(getAllPosts.rejected, (state) => {
+                state.status = "failed";
+            })
     },
 });
 
-export const {} = ArticlesReducer.actions;
+export const {} = articlesReducer.actions;
 
 // Selectors
-// export const access_token = (state: RootState) => state.user.access_token;
+export const allArticles = (state: RootState) => state.articles.allArticles;
 
-export default ArticlesReducer.reducer;
+export default articlesReducer.reducer;

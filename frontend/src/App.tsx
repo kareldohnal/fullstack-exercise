@@ -33,12 +33,12 @@ const App: React.FC = () => {
                 }/>
                 <Route path={"/admin/create"} element={
                     <RequireAuth>
-                        <AdminEditArticle createNewMode={true} />
+                        <AdminEditArticle createNewMode={true}/>
                     </RequireAuth>
                 }/>
                 <Route path={"/admin/edit/:id"} element={
                     <RequireAuth>
-                        <AdminEditArticle />
+                        <AdminEditArticle/>
                     </RequireAuth>
                 }/>
             </Routes>
@@ -49,7 +49,9 @@ const App: React.FC = () => {
 function RequireAuth({children}: { children: JSX.Element }) {
     const loggedIn = useAppSelector(access_token)
 
-    if (!loggedIn) return <Navigate to={"/"} />
+    if (!loggedIn) {
+        return <Navigate to={"/"}/>
+    }
 
     return children
 }

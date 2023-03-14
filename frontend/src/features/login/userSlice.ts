@@ -23,9 +23,9 @@ const initialState: UserState = {
 
 export const loginWithCredentials = createAsyncThunk(
     'user/loginWithCredentials',
-    async (data: {"username": string, "password": string}, thunkAPI) => {
+    async (data: { "username": string, "password": string }, thunkAPI) => {
         const responseData = await axios.post(`/auth/login`, data)
-            .then((response) =>  {
+            .then((response) => {
                 return response.data
             })
             .catch((error) => {
@@ -40,7 +40,7 @@ export const loginWithRefresh = createAsyncThunk(
     'user/loginWithRefresh',
     async (_, thunkAPI) => {
         const responseData = await axios.post(`/auth/refresh`)
-            .then((response) =>  {
+            .then((response) => {
                 return response.data
             })
             .catch((error) => {
@@ -51,11 +51,30 @@ export const loginWithRefresh = createAsyncThunk(
     },
 );
 
+export const silentRefresh = createAsyncThunk(
+    'user/silentRefresh',
+    async (_, thunkAPI) => {
+        const checkIfTokenValid = (token: string) => {
+            const jwtPayload = JSON.parse(window.atob(token.split('.')[1]))
+            return Date.now() < jwtPayload.exp * 1000;
+        }
+
+        const currentToken = (thunkAPI.getState() as RootState).user.access_token
+        if (currentToken && checkIfTokenValid(currentToken)) {
+            return currentToken
+        } else {
+            await thunkAPI.dispatch(loginWithRefresh())
+            const newToken = (thunkAPI.getState() as RootState).user.access_token
+            return newToken ? newToken : thunkAPI.rejectWithValue("silentRefresh")
+        }
+    },
+);
+
 export const logout = createAsyncThunk(
     'user/logout',
     async (_, thunkAPI) => {
         const logoutSuccess = await axios.post(`/auth/logout`)
-            .then(() =>  {
+            .then(() => {
                 return true
             })
             .catch((error) => {
@@ -69,15 +88,13 @@ export const logout = createAsyncThunk(
 export const userReducer = createSlice({
     name: 'user',
     initialState,
-    reducers: {
-
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(loginWithCredentials.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(loginWithCredentials.fulfilled, (state, action:PayloadAction<AuthEntity>) => {
+            .addCase(loginWithCredentials.fulfilled, (state, action: PayloadAction<AuthEntity>) => {
                 state.status = "idle";
                 state.id = action.payload.id;
                 state.username = action.payload.username;
@@ -91,7 +108,7 @@ export const userReducer = createSlice({
             .addCase(loginWithRefresh.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(loginWithRefresh.fulfilled, (state, action:PayloadAction<AuthEntity>) => {
+            .addCase(loginWithRefresh.fulfilled, (state, action: PayloadAction<AuthEntity>) => {
                 state.status = "idle";
                 state.id = action.payload.id;
                 state.username = action.payload.username;
@@ -123,6 +140,7 @@ export const {} = userReducer.actions;
 
 // Selectors
 export const access_token = (state: RootState) => state.user.access_token;
+export const userId = (state: RootState) => state.user.id;
 export const avatar = (state: RootState) => state.user.avatar;
 
 export default userReducer.reducer;

@@ -5,6 +5,8 @@ import "./articles.scss";
 import {useAppDispatch} from "../../hooks/useAppDispatch";
 import {createPost} from "./articlesSlice";
 import {useNavigate} from "react-router-dom";
+import {useAppSelector} from "../../hooks/useAppSelector";
+import {userId} from "../login/userSlice";
 
 type Props = {
     createNewMode?: boolean
@@ -17,6 +19,7 @@ const AdminEditArticle = ({createNewMode = false}: Props) => {
     const fileRef = useRef(null)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const authorId = useAppSelector(userId)
 
     const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value)
@@ -33,12 +36,12 @@ const AdminEditArticle = ({createNewMode = false}: Props) => {
         };
     }
 
-    const handlePublish = () => {
+    const handlePublish = async () => {
         if (title === "" || !content) {
             alert("Article Title and Content must be filled out.")
             return
         }
-        dispatch(createPost({title, content, thumbnail: image as string}))
+        await dispatch(createPost({authorId, postInput: {title, content, thumbnail: image as string}}))
         navigate("/admin")
     }
 

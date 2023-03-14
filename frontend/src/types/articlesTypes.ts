@@ -1,5 +1,8 @@
+import {AuthEntity} from "./userTypes";
+
 export interface PostEntity {
     id: number,
+    author: AuthEntity,
     title: string,
     content: string,
     timestampCreated: string,
