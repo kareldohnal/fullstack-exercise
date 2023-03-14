@@ -58,6 +58,7 @@ export const updatePost = createAsyncThunk(
     },
 );
 
+//getAllPosts thunk would be cacheable by adding timestamp of last update of the data and adding argument to override cache when needed.
 export const getAllPosts = createAsyncThunk(
     'articles/getAllPosts',
     async (_, thunkAPI) => {

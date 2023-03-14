@@ -4,12 +4,14 @@
   align-items: center;
   display: flex;
   gap: 32px;
+
   h1 {
     font-size: 40px;
     font-style: normal;
     font-weight: 500;
     line-height: 48px;
   }
+
   button {
     background: colors.$primary-color;
     border: 0;
@@ -22,13 +24,15 @@
   }
 }
 
-.editArticleBlock{
+.editArticleBlock {
   display: flex;
   flex-direction: column;
   margin-bottom: 32px;
+
   h6 {
     margin-bottom: 8px;
   }
+
   input[type="text"] {
     box-sizing: border-box;
     border: 1px solid #DFDFDF;
@@ -37,22 +41,27 @@
     height: 46px;
     padding: 8px 16px;
   }
+
   .imagePreview {
     align-self: start;
     height: 74px;
     margin-bottom: 8px;
   }
+
   .uploadControls {
     display: flex;
     gap: 8px;
+
     .pipe {
       color: #C8C8C8;
     }
+
     .delete {
       color: #DC3545;
       cursor: pointer;
     }
   }
+
   label.empty {
     align-items: center;
     background: #6C757D;
@@ -64,10 +73,12 @@
     width: 147px;
     height: 36px;
   }
+
   label.full {
     color: colors.$primary-color;
     cursor: pointer;
   }
+
   input[type="file"] {
     display: none;
   }
@@ -77,27 +88,92 @@
 .table {
   width: 100%;
   border-collapse: collapse;
+
   th {
     border-bottom: 2px solid #DFDFDF;
     text-align: left;
   }
+
   tr {
     height: 48px;
   }
+
   td {
     border-bottom: 1px solid #DFDFDF;
     color: colors.$text-body-color;
     padding: 3px;
   }
+
   .actionColumn {
     align-items: center;
     display: flex;
     gap: 24px;
     height: 48px;
   }
+
   .actionIcon {
     cursor: pointer;
     height: 24px;
   }
 }
+
 //AdminArticleList END
+
+.recentArticlesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+//ArticlePreview START
+.previewContainer {
+  display: flex;
+
+  .thumbnail {
+    background-size: cover;
+    background-position: center;
+    border-radius: 2px;
+    height: 244px;
+    margin-right: 24px;
+    min-width: 272px;
+    width: 272px;
+  }
+
+  .previewRight {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 557px;
+  }
+
+  .previewTitle {
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .previewMeta {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    color: colors.$text-secondary-color
+  }
+
+  .previewInfo {
+    align-items: center;
+    font-size: 14px;
+    display: flex;
+    gap: 19px;
+    color: colors.$text-secondary-color;
+
+    .previewNavlink{
+      text-decoration: none;
+      padding: 4px 8px;
+    }
+
+    .previewNavlink:hover{
+      text-decoration: underline;
+    }
+  }
+}
+
+//ArticlePreview END
