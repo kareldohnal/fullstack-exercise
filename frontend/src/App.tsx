@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import RecentArticlesPage from "./features/articles/RecentArticlesPage";
 import ArticleDetailPage from "./features/articles/ArticleDetailPage";
 import LoginPage from "./features/login/LoginPage";
@@ -50,7 +50,7 @@ function RequireAuth({children}: { children: JSX.Element }) {
     const loggedIn = useAppSelector(access_token)
 
     if (!loggedIn) {
-        return <Navigate to={"/"}/>
+        return <LoginPage/>
     }
 
     return children

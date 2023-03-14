@@ -1,12 +1,13 @@
-import React, {ChangeEvent, useRef, useState} from 'react';
+import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import Layout from "../wrappers/Layout";
 import MDEditor from '@uiw/react-md-editor';
 import "./articles.scss";
 import {useAppDispatch} from "../../hooks/useAppDispatch";
-import {createPost} from "./articlesSlice";
-import {useNavigate} from "react-router-dom";
+import {createPost, updatePost} from "./articlesSlice";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAppSelector} from "../../hooks/useAppSelector";
 import {userId} from "../login/userSlice";
+import axios from "../../config/axios";
 
 type Props = {
     createNewMode?: boolean
@@ -20,6 +21,21 @@ const AdminEditArticle = ({createNewMode = false}: Props) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const authorId = useAppSelector(userId)
+    const {id} = useParams()
+
+    useEffect(() => {
+        if (createNewMode || !id) return
+        axios.get(`/posts/${id}`)
+            .then((response) => {
+                console.log(response.data)
+                setTitle(response.data.title)
+                setContent(response.data.content)
+                response.data.thumbnail && setImage(response.data.thumbnail)
+            })
+            .catch((error) => {
+                console.log("Response error:", error)
+            })
+    }, [createNewMode, id])
 
     const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value)
@@ -41,7 +57,12 @@ const AdminEditArticle = ({createNewMode = false}: Props) => {
             alert("Article Title and Content must be filled out.")
             return
         }
-        await dispatch(createPost({authorId, postInput: {title, content, thumbnail: image as string}}))
+        if (createNewMode) {
+            await dispatch(createPost({authorId, postInput: {title, content, thumbnail: image as string}}))
+        } else {
+            await dispatch(updatePost({id: Number(id), postInput: {title, content, thumbnail: image as string}}))
+        }
+
         navigate("/admin")
     }
 

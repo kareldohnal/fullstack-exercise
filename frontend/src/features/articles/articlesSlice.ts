@@ -37,6 +37,27 @@ export const createPost = createAsyncThunk(
     },
 );
 
+export const updatePost = createAsyncThunk(
+    'articles/updatePost',
+    async (data: {"id": number, postInput: {"title": string, "content": string, thumbnail?: string}}, thunkAPI) => {
+        await thunkAPI.dispatch(silentRefresh())
+        const token = (thunkAPI.getState() as RootState).user.access_token
+        if (!token) return thunkAPI.rejectWithValue("loginWithCredentials: token unavailable")
+        const responseData = await axios.put(`/posts/${data.id}`, data.postInput, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }})
+            .then((response) =>  {
+                return response.data
+            })
+            .catch((error) => {
+                console.log("Response error:", error)
+                return null
+            })
+        return responseData ? responseData : thunkAPI.rejectWithValue("loginWithCredentials")
+    },
+);
+
 export const getAllPosts = createAsyncThunk(
     'articles/getAllPosts',
     async (_, thunkAPI) => {
@@ -67,6 +88,15 @@ export const articlesReducer = createSlice({
                 state.status = "idle";
             })
             .addCase(createPost.rejected, (state) => {
+                state.status = "failed";
+            })
+            .addCase(updatePost.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(updatePost.fulfilled, (state) => {
+                state.status = "idle";
+            })
+            .addCase(updatePost.rejected, (state) => {
                 state.status = "failed";
             })
             .addCase(getAllPosts.pending, (state) => {
