@@ -16,7 +16,9 @@ type Props = {
 // The component is susceptible to loss of data during refresh. I was planning to address the issue, but didn't due to lack of time.
 // 1. Save all changes to REDUX to prepared "selectedArticle" property.
 // 2. Periodically save property to localStorage with timestamp.
-// 3. On refresh load from localStorage if timestamp is newer that one minute.
+// 3. On refresh load from localStorage if timestamp is reasonably old.
+
+// The component would also profit from confirmation on leave action if some fields were changed.
 const AdminEditArticle = ({createNewMode = false}: Props) => {
     const [content, setContent] = useState<string>(undefined)
     const [title, setTitle] = useState<string>("")

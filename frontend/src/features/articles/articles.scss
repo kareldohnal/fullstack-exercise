@@ -151,13 +151,6 @@
     font-weight: 500;
   }
 
-  .previewMeta {
-    display: flex;
-    gap: 12px;
-    font-size: 14px;
-    color: colors.$text-secondary-color
-  }
-
   .previewInfo {
     align-items: center;
     font-size: 14px;
@@ -175,5 +168,27 @@
     }
   }
 }
-
 //ArticlePreview END
+
+.meta {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  color: colors.$text-secondary-color
+}
+
+//ArticleDetail START
+.articleDetailContainer {
+  max-width: 760px;
+
+  .articleDetailThumbnail {
+    background-size: cover;
+    background-position: center;
+    height: 504px;
+    margin-bottom: 24px;
+    min-width: 760px;
+    width: 760px;
+  }
+}
+
+//ArticleDetail END

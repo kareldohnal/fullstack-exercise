@@ -14,10 +14,10 @@ const ArticlePreview = ({post}: Props) => {
       <div className={"thumbnail"} style={{backgroundImage: `url(${post.thumbnail ? post.thumbnail : "/assets/images/placeholder.png"})`,}} />
       <div className={"previewRight"}>
           <div className={"previewTitle"}>{post.title}</div>
-          <div className={"previewMeta"}>
+          <div className={"meta"}>
               <div>{post.author?.displayName}</div>
               <div>•</div>
-              <div>{post.timestampCreated}</div>
+              <div>{new Date(post.timestampCreated).toLocaleDateString("cs")}</div>
           </div>
           <div className={"previewPerex"}>{useTruncatedString(post.content, 300, true)}</div>
           <div className={"previewInfo"}>
