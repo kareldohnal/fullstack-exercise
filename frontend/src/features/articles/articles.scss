@@ -212,3 +212,13 @@
   }
 }
 //ArticleDetailRelatedArticles END
+
+//ArticleDetailComments START
+.articleDetailCommentsContainer {
+  border-top: 1px solid #DFDFDF;
+  display: flex;
+  flex-direction: column;
+  width: 759px;
+  max-width: 759px;
+}
+//ArticleDetailComments END
