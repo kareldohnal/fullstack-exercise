@@ -1,0 +1,36 @@
+@use '../../partials/colors';
+
+.loginOuterContainer {
+  display: flex;
+  justify-content: center;
+  padding-top: 64px;
+}
+
+.loginInnerContainer{
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.175);
+  border-radius: 8px;
+  padding: 32px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    input {
+      width: 304px;
+      border: 1px solid #DFDFDF;
+      border-radius: 4px;
+      padding: 6px 12px;
+      margin-bottom: 16px;
+    }
+  }
+
+  button {
+    align-self: end;
+    color: white;
+    background: colors.$primary-color;
+    border-radius: 4px;
+    border: 1px solid colors.$primary-color;
+    padding: 6px 12px;
+  }
+}
