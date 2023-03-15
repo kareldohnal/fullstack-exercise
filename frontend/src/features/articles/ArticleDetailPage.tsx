@@ -39,7 +39,7 @@ const ArticleDetailPage = ({}: Props) => {
                      style={{backgroundImage: `url(${post.thumbnail ? post.thumbnail : "/assets/images/placeholder.png"})`,}}/>
                 <div className={"articleDetailContent"}><ReactMarkdown>{post.content}</ReactMarkdown></div>
                 <ArticleDetailComments {...{post}} />
-                  {width > 1160 && <ArticleDetailRelatedArticles/>}
+                  {width > 1160 && <ArticleDetailRelatedArticles excludeId={Number(id)}/>}
               </div>
             }
         </Layout>

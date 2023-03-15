@@ -190,5 +190,25 @@
     width: 760px;
   }
 }
-
 //ArticleDetail END
+
+//ArticleDetailRelatedArticles START
+.relatedArticlesContainer {
+  border-left: 1px solid #DFDFDF;
+  position: fixed;
+  top: 100px;
+  left: 1008px;
+  padding-left: 25px;
+  width: 371px;
+  h3 {
+    margin: 0 0 32px 0;
+  }
+  .relatedArticlesPost{
+    cursor: pointer;
+    margin-bottom: 24px;
+  }
+  h4 {
+    margin: 0 0 8px 0;
+  }
+}
+//ArticleDetailRelatedArticles END
