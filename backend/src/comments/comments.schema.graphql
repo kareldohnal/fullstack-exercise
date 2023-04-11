@@ -1,0 +1,20 @@
+type Comment {
+    id: Int!
+    post: Int!
+    author: String!
+    content: String!
+    timestampCreated: String!
+}
+
+input CommentInput {
+    author: String!
+    content: String!
+}
+
+type Query {
+    getComments(postId: Int!): [Comment]!
+}
+
+type Mutation {
+    createComment(postId: Int!, commentInput: CommentInput!): ResponseStatus!
+}

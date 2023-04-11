@@ -1,0 +1,9 @@
+type ResponseStatusWithIP {
+    status: Int!
+    ip: String
+    message: String
+}
+
+type Mutation {
+    voteOnComment(commentId: Int!, effect: Boolean!): ResponseStatusWithIP!
+}
